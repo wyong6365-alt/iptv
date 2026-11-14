@@ -56,6 +56,7 @@ def import_boq(session: Session, unit: m.UnitProject, rows: list[dict], kind: st
         raise ServiceError("清单为空")
 
     items, hashes = [], []
+    notes_by_seq: dict[int, list[str]] = {}
     for seq, row in enumerate(rows, start=1):
         missing = [f for f in ("code", "name", "unit", "quantity") if not str(row.get(f, "")).strip()]
         if missing:
@@ -64,6 +65,7 @@ def import_boq(session: Session, unit: m.UnitProject, rows: list[dict], kind: st
         section, features = row.get("section", ""), row.get("features", "")
         h = row_hash(seq, section, row["code"], row["name"], features, row["unit"], qty)
         hashes.append(h)
+        notes_by_seq[seq] = list(row.get("anomalies") or [])
         items.append(m.TenderBoqItem(seq=seq, section=section, code=row["code"], name=row["name"], features=features,
                                      unit=row["unit"], quantity=qty, source_ref=row.get("source_ref", ""), row_hash=h))
     version = m.TenderBoqVersion(
@@ -80,6 +82,8 @@ def import_boq(session: Session, unit: m.UnitProject, rows: list[dict], kind: st
     for item in items:
         if item.quantity <= 0:
             session.add(m.BoqAnomaly(boq_item_id=item.id, kind="quantity", message="工程量不大于 0，请对照原件核实"))
+        for note in notes_by_seq[item.seq]:
+            session.add(m.BoqAnomaly(boq_item_id=item.id, kind="recognition", message=note))
     audit(session, user_id, "boq.import", f"unit:{unit.id}", version=version.version_no, kind=kind,
           content_hash=version.content_hash, changes=len(diff))
     session.commit()

@@ -52,7 +52,7 @@ def test_all_16_professions_have_adapters_and_can_create_units(ctx):
         extra = {}
         if p["fee_categories"]:
             cat = p["fee_categories"][0]
-            extra = {"fee_category": cat, **({"grade": "II"} if cat in ("building", "decoration") else {})}
+            extra = {"fee_category": cat["code"], **({"grade": "II"} if cat["graded"] else {})}
         unit = new_unit(ctx, p["code"], **extra)
         if p["pricing_system"]["engine"] == "manual":
             assert unit["notices"], p["code"]  # 明确提示数据缺口

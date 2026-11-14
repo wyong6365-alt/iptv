@@ -12,7 +12,7 @@ OK, PENDING, MISSING, UNBUILT, UNVERIFIED, NO = "可用", "已录入待复核", 
 
 # 平台功能是否已经开发完成。功能上线并通过测试后在此处改为 True。
 FEATURES = {
-    "boq_file_recognition": False,  # 目前只能导入结构化清单数据，文件识别未开发
+    "boq_file_recognition": True,  # 仅 Excel（.xlsx）；PDF、扫描件、Word 未开发
     "resource_prices": False,
     "ai_matching": False,
     "review": False,
@@ -28,7 +28,7 @@ def _profession_status(session: Session, prof: m.Profession) -> dict[str, tuple[
         select(m.ProfessionAdapter).filter_by(profession_id=prof.id)) is not None
     s["established"] = (OK, f"适配器 {adapter.code} v{adapter.version}") if registered else (NO, "适配器未注册")
 
-    s["boq_recognition"] = (UNVERIFIED, "需真实清单样本核对") if FEATURES["boq_file_recognition"] else (
+    s["boq_recognition"] = (UNVERIFIED, "Excel 清单识别已开发，PDF 和扫描件未开发；尚无真实清单样本核对") if FEATURES["boq_file_recognition"] else (
         UNBUILT, "文件识别未开发；可导入结构化清单数据")
 
     quotas = session.scalars(

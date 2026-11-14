@@ -4,14 +4,22 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Literal
 
-from fastapi import Depends, FastAPI, Header, HTTPException
+import hashlib
+from pathlib import Path
+
+from fastapi import Depends, FastAPI, Header, HTTPException, Request
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from . import adapters, capabilities, models as m, protection, security, seed, services
+from . import adapters, boq_excel, capabilities, models as m, protection, security, seed, services
+from .engine import sd_construction as sd_engine
 from .catalog import CAPABILITIES, PRICING_SYSTEMS
-from .db import Base, make_engine, make_session_factory
+from .db import Base, data_dir, make_engine, make_session_factory
+
+MAX_UPLOAD = 30 * 1024 * 1024
+STATIC_DIR = Path(__file__).parent / "static"
 
 WRITE_ROLES = {"admin", "estimator"}
 
@@ -50,6 +58,7 @@ class BoqRow(Strict):
     unit: str
     quantity: Decimal
     source_ref: str = ""
+    anomalies: list[str] = []
 
 
 class BoqImport(Strict):
@@ -152,6 +161,10 @@ def create_app(db_url: str | None = None) -> FastAPI:
         return unit
 
     # ----- 用户 -----
+    @app.get("/api/auth/status")
+    def auth_status(session: Session = Depends(db)):
+        return {"initialized": bool(session.scalar(select(func.count()).select_from(m.User)))}
+
     @app.post("/api/auth/setup")
     def setup(body: Credentials, session: Session = Depends(db)):
         """首次启动时创建管理员。已有用户后此接口关闭。"""
@@ -185,6 +198,7 @@ def create_app(db_url: str | None = None) -> FastAPI:
     @app.get("/api/professions")
     def professions(session: Session = Depends(db), _: m.User = Depends(current_user)):
         out = []
+        sd_rules = session.scalar(select(m.FeeRuleSet).filter_by(pricing_system="sd_construction")).data
         for p in session.scalars(select(m.Profession).order_by(m.Profession.sort)):
             adapter = adapters.REGISTRY.get(p.code)
             out.append({
@@ -192,7 +206,9 @@ def create_app(db_url: str | None = None) -> FastAPI:
                 "pricing_system": adapter and {"code": adapter.pricing_system,
                                                "name": PRICING_SYSTEMS[adapter.pricing_system][0],
                                                "engine": adapter.engine_code()},
-                "fee_categories": list(adapter.fee_categories) if adapter else [],
+                "fee_categories": [{"code": c, "name": sd_rules["categories"][c]["name"],
+                                    "graded": sd_rules["categories"][c]["graded"]}
+                                   for c in (adapter.fee_categories if adapter else ())],
                 "subcategories": [{"code": s.code, "name": s.name} for s in p.subcategories],
             })
         return out
@@ -236,7 +252,8 @@ def create_app(db_url: str | None = None) -> FastAPI:
     @app.get("/api/projects")
     def list_projects(session: Session = Depends(db), _: m.User = Depends(current_user)):
         return [{"id": p.id, "name": p.name,
-                 "units": [{"id": u.id, "name": u.name, "pricing_system": u.pricing_system} for u in p.units]}
+                 "units": [{"id": u.id, "name": u.name,
+                            "pricing_system": PRICING_SYSTEMS[u.pricing_system][0]} for u in p.units]}
                 for p in session.scalars(select(m.Project).order_by(m.Project.id))]
 
     @app.post("/api/projects/{project_id}/units")
@@ -297,16 +314,90 @@ def create_app(db_url: str | None = None) -> FastAPI:
         return {"version_id": version.id, "version_no": version.version_no, "content_hash": version.content_hash,
                 "items": len(version.items), "diff": diff}
 
+    @app.post("/api/units/{unit_id}/boq/recognize")
+    async def recognize_boq(unit_id: int, request: Request, filename: str, session: Session = Depends(db),
+                            user: m.User = Depends(require(*WRITE_ROLES))):
+        """识别上传的 Excel 清单，只返回预览，不入库。人工核对后再调用导入接口。"""
+        unit_or_404(session, unit_id)
+        content = await request.body()
+        if not content or len(content) > MAX_UPLOAD:
+            raise HTTPException(413 if content else 422, "文件为空或超过 30MB")
+        try:
+            result = boq_excel.recognize(content, filename)
+        except boq_excel.RecognitionError as exc:
+            raise HTTPException(422, str(exc)) from None
+        digest = hashlib.sha256(content).hexdigest()
+        folder = data_dir() / "files"
+        folder.mkdir(exist_ok=True)
+        (folder / f"{digest}{Path(filename).suffix.lower()[:6]}").write_bytes(content)
+        services.audit(session, user.id, "boq.recognize", f"unit:{unit_id}", filename=filename, sha256=digest,
+                       items=len(result["items"]))
+        session.commit()
+        return {"source_file": f"{Path(filename).name}（SHA-256 {digest[:16]}）", **result}
+
+    @app.get("/api/units/{unit_id}")
+    def get_unit(unit_id: int, session: Session = Depends(db), _: m.User = Depends(current_user)):
+        unit = unit_or_404(session, unit_id)
+        prof = session.get(m.Profession, unit.profession_id)
+        adapter = adapters.get(prof.code)
+        engine_code = adapter.engine_code()
+        tender = unit.tender_requirements or {}
+        reference = None
+        if engine_code == "sd_construction":
+            rule = session.get(m.FeeRuleSet, unit.fee_rule_set_id)
+            r = sd_engine._rates(rule.data, sd_engine.Params(category=unit.fee_category, grade=unit.grade,
+                                                             tax_method=tender.get("tax_method", "general")))
+            reference = {
+                "rule_code": rule.code, "rule_name": rule.name, "reviewed": rule.reviewed_by is not None,
+                "category_name": r["cat"]["name"],
+                "fee_base": "人工费+施工机具使用费" if r["cat"]["fee_base"] == "labor_machine" else "人工费",
+                "management": str(r["management"]), "profit": str(r["profit"]),
+                "general_measures": [{"key": k, "name": sd_engine.GENERAL_MEASURE_NAMES[k], "rate": str(v)}
+                                     for k, v in r["general_measures"].items()],
+                "safety": [{"key": k, "name": sd_engine.SAFETY_NAMES[k], "floor": str(v)}
+                           for k, v in r["safety"].items()],
+                "injury": str(r["injury"]), "vat": str(r["vat"]),
+                "quality": {k: str(v) for k, v in r["quality"].items()},
+                "service": rule.data["general_contract_service"],
+            }
+        last = session.scalar(select(m.CalcRun).filter_by(unit_project_id=unit.id).order_by(m.CalcRun.id.desc()))
+        project = session.get(m.Project, unit.project_id)
+        return {"id": unit.id, "name": unit.name, "project": {"id": project.id, "name": project.name},
+                "profession": {"code": prof.code, "name": prof.name},
+                "pricing_system": PRICING_SYSTEMS[unit.pricing_system][0], "engine": engine_code,
+                "grade": unit.grade, "tender_requirements": tender, "pricing_params": unit.pricing_params or {},
+                "reference": reference, "has_boq": unit.effective_boq_version_id is not None,
+                "last_run": last and {"run_id": last.id, "at": last.created_at.isoformat(),
+                                      "boq_version_id": last.boq_version_id, **last.result}}
+
+    @app.get("/api/units/{unit_id}/lines")
+    def get_lines(unit_id: int, session: Session = Depends(db), _: m.User = Depends(current_user)):
+        unit_or_404(session, unit_id)
+        out: dict[int, list] = {}
+        for l in session.scalars(select(m.CompositionLine).filter_by(unit_project_id=unit_id)
+                                 .order_by(m.CompositionLine.boq_seq, m.CompositionLine.sort)):
+            out.setdefault(l.boq_seq, []).append({
+                "name": l.name, "unit": l.unit, "content": str(l.content), "labor": str(l.labor),
+                "material": str(l.material), "machine": str(l.machine), "quota_item_id": l.quota_item_id,
+                "basis_note": l.basis_note})
+        return out
+
     @app.get("/api/units/{unit_id}/boq")
     def get_boq(unit_id: int, session: Session = Depends(db), _: m.User = Depends(current_user)):
         unit = unit_or_404(session, unit_id)
         if not unit.effective_boq_version_id:
             raise HTTPException(404, "尚未导入招标清单")
         version = session.get(m.TenderBoqVersion, unit.effective_boq_version_id)
-        return {"version_no": version.version_no, "kind": version.kind, "content_hash": version.content_hash,
+        notes: dict[int, list[str]] = {}
+        for a in session.scalars(select(m.BoqAnomaly).join(m.TenderBoqItem).where(
+                m.TenderBoqItem.version_id == version.id)):
+            notes.setdefault(a.boq_item_id, []).append(a.message)
+        return {"version_id": version.id, "version_no": version.version_no, "kind": version.kind,
+                "source_file": version.source_file, "note": version.note, "content_hash": version.content_hash,
                 "intact": services.verify_boq_integrity(version),
                 "items": [{"seq": i.seq, "section": i.section, "code": i.code, "name": i.name, "features": i.features,
-                           "unit": i.unit, "quantity": str(i.quantity), "source_ref": i.source_ref}
+                           "unit": i.unit, "quantity": str(i.quantity), "source_ref": i.source_ref,
+                           "anomalies": notes.get(i.id, [])}
                           for i in version.items]}
 
     # ----- 组价与计算 -----
@@ -355,4 +446,6 @@ def create_app(db_url: str | None = None) -> FastAPI:
         return [{"id": r.id, "user_id": r.user_id, "action": r.action, "target": r.target, "detail": r.detail,
                  "at": r.at.isoformat()} for r in rows]
 
+    if STATIC_DIR.is_dir():
+        app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="ui")
     return app

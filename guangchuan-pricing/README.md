@@ -2,18 +2,18 @@
 
 研发单位：山东广川建设工程有限公司
 
-当前阶段：第一阶段平台基础和山东省建设工程计价引擎已完成并通过测试；界面、文件识别、定额匹配、导出尚未开发。
+当前阶段：平台基础、山东省建设工程计价引擎、Excel 清单识别和操作界面已完成并通过测试；PDF 和扫描件识别、定额库与定额匹配、资源价格、报价导出、exe 打包尚未开发。
 
-## 运行后端
+## 运行
 
 ```
-cd backend
-pip install -e ".[dev]"
-python -m pytest          # 运行测试
-python -m gcpricing       # 启动服务，接口文档 http://127.0.0.1:8765/docs
+cd frontend && npm install && npm run build   # 界面构建到 backend/gcpricing/static
+cd ../backend && pip install -e ".[dev]"
+python -m pytest                               # 运行测试
+python -m gcpricing                            # 启动后用浏览器打开 http://127.0.0.1:8765
 ```
 
-首次启动后调用 `POST /api/auth/setup` 创建管理员。数据默认保存在用户目录下的 `.gcpricing/`。
+首次打开时创建管理员账号。数据默认保存在用户目录下的 `.gcpricing/`。
 
 ## 设计文件
 
