@@ -1,0 +1,19 @@
+[project]
+name = "gcpricing"
+version = "0.1.0"
+description = "广川AI智能工程量清单识别与自主组价平台 后端"
+requires-python = ">=3.11"
+dependencies = ["fastapi>=0.110", "uvicorn>=0.29", "sqlalchemy>=2.0", "pydantic>=2.6", "pyjwt>=2.8"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27"]
+cloud = ["psycopg[binary]>=3.1"]
+
+[tool.setuptools.packages.find]
+include = ["gcpricing*"]
+
+[tool.setuptools.package-data]
+gcpricing = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

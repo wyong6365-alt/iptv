@@ -1,0 +1,1166 @@
+{
+ "code": "SD-FEE-2025",
+ "name": "山东省建设工程费用项目组成及计算规则（2025）",
+ "pricing_system": "sd_construction",
+ "stage": "tender",
+ "source": {
+  "issuer": "山东省住房和城乡建设厅",
+  "doc_no": "鲁建标字〔2025〕7号",
+  "issued": "2025-08-29",
+  "effective": "同《建设工程工程量清单计价标准》GB/T 50500-2024 执行日期",
+  "url": "https://jncc.jinan.gov.cn/col116283/art/2025/art_116283_4790939.html",
+  "file": "data-sources/shandong/山东省建设工程费用项目组成及计算规则-2025.pdf",
+  "pages": "第二章 P12-16，第三章 P17-24"
+ },
+ "review": {
+  "status": "transcribed_pending_review",
+  "note": "由程序从官方 PDF 文本转录。市政安全文明措施费（P19-20）和工伤保险、优质优价费（P24）的合并单元格分组已对照页面图像核对；其余数值未经造价人员逐项对照原件复核。"
+ },
+ "rounding": {
+  "unit_price_places": 2,
+  "amount_places": 2,
+  "mode": "ROUND_HALF_UP",
+  "note": "规则未规定舍入方式，此为默认值，以招标文件为准"
+ },
+ "rate_unit": "percent",
+ "categories": {
+  "building": {
+   "name": "建筑工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "building",
+   "graded": true,
+   "other_fee_group": "a"
+  },
+  "structure": {
+   "name": "构筑物工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "building",
+   "graded": true,
+   "other_fee_group": "a"
+  },
+  "earthwork": {
+   "name": "单独土石方工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "building",
+   "graded": true,
+   "other_fee_group": "a"
+  },
+  "piling": {
+   "name": "桩基础工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "building",
+   "graded": true,
+   "other_fee_group": "a"
+  },
+  "decoration": {
+   "name": "装饰工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "decoration",
+   "graded": true,
+   "other_fee_group": "a"
+  },
+  "installation": {
+   "name": "安装工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "installation",
+   "graded": false,
+   "other_fee_group": "a"
+  },
+  "landscaping": {
+   "name": "园林绿化工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "landscaping",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "repair_building": {
+   "name": "房屋修缮建筑工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "repair_building",
+   "graded": false,
+   "other_fee_group": "a"
+  },
+  "repair_installation": {
+   "name": "房屋修缮安装工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "repair_installation",
+   "graded": false,
+   "other_fee_group": "a"
+  },
+  "heritage_repair": {
+   "name": "古建筑修缮工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "heritage_repair",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "antique": {
+   "name": "仿古建筑工程",
+   "group": "general",
+   "fee_base": "labor",
+   "measure_rates_as": "antique",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "road": {
+   "name": "市政道路工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "road",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "bridge": {
+   "name": "市政桥涵工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "bridge",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "tunnel": {
+   "name": "市政隧道工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "tunnel",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "water_supply": {
+   "name": "市政给水工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "water_supply",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "drainage": {
+   "name": "市政排水工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "drainage",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "gas": {
+   "name": "市政燃气工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "gas",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "heating": {
+   "name": "市政供热工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "heating",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "water_treatment": {
+   "name": "市政水处理工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "water_treatment",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "waste": {
+   "name": "市政生活垃圾处理工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "waste",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "street_light": {
+   "name": "市政路灯工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "street_light",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "utility_tunnel": {
+   "name": "城市地下综合管廊工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "utility_tunnel",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "maint_road": {
+   "name": "道路、桥涵、隧道、排水养护维修工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "maint_road",
+   "graded": false,
+   "other_fee_group": "b"
+  },
+  "maint_pipe": {
+   "name": "给水、燃气、供热、路灯养护维修工程",
+   "group": "municipal",
+   "fee_base": "labor_machine",
+   "measure_rates_as": "maint_pipe",
+   "graded": false,
+   "other_fee_group": "b"
+  }
+ },
+ "tax_methods": {
+  "general": {
+   "general_measures": {
+    "building": {
+     "night": "2.62",
+     "secondary_transport": "2.24",
+     "winter_rain": "2.99",
+     "protection": "0.56",
+     "existing_protection": null
+    },
+    "decoration": {
+     "night": "3.77",
+     "secondary_transport": "3.40",
+     "winter_rain": "4.25",
+     "protection": "0.56",
+     "existing_protection": null
+    },
+    "installation": {
+     "night": "3.28",
+     "secondary_transport": "2.59",
+     "winter_rain": "3.45",
+     "protection": "1.34",
+     "existing_protection": null
+    },
+    "landscaping": {
+     "night": "2.45",
+     "secondary_transport": "4.90",
+     "winter_rain": "2.45",
+     "protection": "6.53",
+     "existing_protection": null
+    },
+    "repair_building": {
+     "night": "4.05",
+     "secondary_transport": "3.59",
+     "winter_rain": "4.51",
+     "protection": "2.93",
+     "existing_protection": null
+    },
+    "repair_installation": {
+     "night": "3.28",
+     "secondary_transport": "3.33",
+     "winter_rain": "3.45",
+     "protection": "1.90",
+     "existing_protection": null
+    },
+    "heritage_repair": {
+     "night": "4.22",
+     "secondary_transport": "3.73",
+     "winter_rain": "4.71",
+     "protection": null,
+     "existing_protection": "2.89"
+    },
+    "antique": {
+     "night": "0.66",
+     "secondary_transport": "2.39",
+     "winter_rain": "2.57",
+     "protection": "0.75",
+     "existing_protection": null
+    },
+    "road": {
+     "night": "0.66",
+     "secondary_transport": "1.14",
+     "winter_rain": "0.41",
+     "protection": "0.63",
+     "positioning": "0.13",
+     "pipeline_crossing": "0.31"
+    },
+    "bridge": {
+     "night": "0.38",
+     "secondary_transport": "1.51",
+     "winter_rain": "0.38",
+     "protection": "0.63",
+     "positioning": "0.08",
+     "pipeline_crossing": "0.38"
+    },
+    "tunnel": {
+     "night": "0.32",
+     "secondary_transport": "1.30",
+     "winter_rain": "0.33",
+     "protection": "0.64",
+     "positioning": "0.08",
+     "pipeline_crossing": "0.21"
+    },
+    "water_supply": {
+     "night": "1.53",
+     "secondary_transport": "2.02",
+     "winter_rain": "1.53",
+     "protection": "0.80",
+     "positioning": "0.33",
+     "pipeline_crossing": "1.22"
+    },
+    "drainage": {
+     "night": "0.42",
+     "secondary_transport": "1.24",
+     "winter_rain": "0.43",
+     "protection": "0.49",
+     "positioning": "0.10",
+     "pipeline_crossing": "0.75"
+    },
+    "gas": {
+     "night": "1.06",
+     "secondary_transport": "1.32",
+     "winter_rain": "1.07",
+     "protection": "0.68",
+     "positioning": "0.69",
+     "pipeline_crossing": "0.90"
+    },
+    "heating": {
+     "night": "1.00",
+     "secondary_transport": "1.31",
+     "winter_rain": "1.00",
+     "protection": "0.53",
+     "positioning": "0.52",
+     "pipeline_crossing": "0.80"
+    },
+    "water_treatment": {
+     "night": "0.50",
+     "secondary_transport": "0.89",
+     "winter_rain": "0.52",
+     "protection": "0.89",
+     "positioning": "0.11",
+     "pipeline_crossing": "0.29"
+    },
+    "waste": {
+     "night": "0.80",
+     "secondary_transport": "1.31",
+     "winter_rain": "0.82",
+     "protection": "0.57",
+     "positioning": "0.19",
+     "pipeline_crossing": "0.80"
+    },
+    "street_light": {
+     "night": "0.56",
+     "secondary_transport": "0.80",
+     "winter_rain": "0.79",
+     "protection": "0.72",
+     "positioning": "0.10",
+     "pipeline_crossing": "0.49"
+    },
+    "utility_tunnel": {
+     "night": "0.28",
+     "secondary_transport": "2.04",
+     "winter_rain": "0.28",
+     "protection": "0.52",
+     "positioning": "0.09",
+     "pipeline_crossing": "0.38"
+    },
+    "maint_road": {
+     "night": "1.25",
+     "secondary_transport": "1.56",
+     "winter_rain": "0.97",
+     "protection": "0.43",
+     "positioning": null,
+     "pipeline_crossing": null
+    },
+    "maint_pipe": {
+     "night": "1.98",
+     "secondary_transport": "2.01",
+     "winter_rain": "2.07",
+     "protection": "0.53",
+     "positioning": null,
+     "pipeline_crossing": null
+    }
+   },
+   "safety_measures": {
+    "building": {
+     "safety_production": "3.49",
+     "environment": "0.57",
+     "civilized": "0.66",
+     "temporary": "0.92"
+    },
+    "decoration": {
+     "safety_production": "3.47",
+     "environment": "0.12",
+     "civilized": "0.10",
+     "temporary": "1.59"
+    },
+    "installation": {
+     "safety_production": "2.32",
+     "environment": "0.31",
+     "civilized": "0.62",
+     "temporary": "1.86"
+    },
+    "landscaping": {
+     "safety_production": "1.69",
+     "environment": "0.15",
+     "civilized": "0.34",
+     "temporary": "1.21"
+    },
+    "repair_building": {
+     "safety_production": "3.47",
+     "environment": "0.25",
+     "civilized": "0.53",
+     "temporary": "1.37"
+    },
+    "repair_installation": {
+     "safety_production": "2.32",
+     "environment": "0.31",
+     "civilized": "0.62",
+     "temporary": "1.86"
+    },
+    "heritage_repair": {
+     "safety_production": "3.44",
+     "environment": "0.24",
+     "civilized": "0.52",
+     "temporary": "1.34"
+    },
+    "antique": {
+     "safety_production": "3.44",
+     "environment": "0.64",
+     "civilized": "0.55",
+     "temporary": "0.90"
+    },
+    "road": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.78"
+    },
+    "bridge": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.78"
+    },
+    "tunnel": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.78"
+    },
+    "drainage": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.78"
+    },
+    "water_treatment": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.78"
+    },
+    "waste": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.78"
+    },
+    "utility_tunnel": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.78"
+    },
+    "water_supply": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "0.89"
+    },
+    "gas": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "0.89"
+    },
+    "heating": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "0.89"
+    },
+    "street_light": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.23"
+    },
+    "maint_road": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.40"
+    },
+    "maint_pipe": {
+     "safety_production": "1.73",
+     "environment": "1.31",
+     "civilized": "0.82",
+     "temporary": "1.40"
+    }
+   },
+   "management_profit": {
+    "building": {
+     "management": {
+      "I": "39.15",
+      "II": "30.11",
+      "III": "23.27"
+     },
+     "profit": {
+      "I": "32.13",
+      "II": "17.61",
+      "III": "13.59"
+     }
+    },
+    "structure": {
+     "management": {
+      "I": "31.30",
+      "II": "27.16",
+      "III": "18.91"
+     },
+     "profit": {
+      "I": "26.93",
+      "II": "20.99",
+      "III": "10.51"
+     }
+    },
+    "earthwork": {
+     "management": {
+      "I": "26.07",
+      "II": "18.05",
+      "III": "11.91"
+     },
+     "profit": {
+      "I": "20.02",
+      "II": "13.88",
+      "III": "6.16"
+     }
+    },
+    "piling": {
+     "management": {
+      "I": "20.93",
+      "II": "15.53",
+      "III": "11.91"
+     },
+     "profit": {
+      "I": "15.17",
+      "II": "11.36",
+      "III": "4.35"
+     }
+    },
+    "decoration": {
+     "management": {
+      "I": "61.57",
+      "II": "47.03",
+      "III": "29.81"
+     },
+     "profit": {
+      "I": "34.87",
+      "II": "21.30",
+      "III": "16.37"
+     }
+    },
+    "installation": {
+     "management": "48.08",
+     "profit": "29.15"
+    },
+    "road": {
+     "management": "19.35",
+     "profit": "10.36"
+    },
+    "bridge": {
+     "management": "18.66",
+     "profit": "11.27"
+    },
+    "tunnel": {
+     "management": "14.13",
+     "profit": "9.62"
+    },
+    "water_supply": {
+     "management": "36.22",
+     "profit": "22.89"
+    },
+    "drainage": {
+     "management": "17.08",
+     "profit": "7.88"
+    },
+    "gas": {
+     "management": "24.19",
+     "profit": "18.00"
+    },
+    "heating": {
+     "management": "26.50",
+     "profit": "19.80"
+    },
+    "water_treatment": {
+     "management": "17.00",
+     "profit": "10.14"
+    },
+    "waste": {
+     "management": "38.10",
+     "profit": "14.22"
+    },
+    "street_light": {
+     "management": "24.05",
+     "profit": "9.83"
+    },
+    "utility_tunnel": {
+     "management": "18.84",
+     "profit": "9.71"
+    },
+    "landscaping": {
+     "management": "52.33",
+     "profit": "27.26"
+    },
+    "repair_building": {
+     "management": "46.16",
+     "profit": "24.15"
+    },
+    "repair_installation": {
+     "management": "48.08",
+     "profit": "29.15"
+    },
+    "heritage_repair": {
+     "management": "47.81",
+     "profit": "28.47"
+    },
+    "maint_road": {
+     "management": "20.07",
+     "profit": "11.79"
+    },
+    "maint_pipe": {
+     "management": "25.19",
+     "profit": "14.86"
+    },
+    "antique": {
+     "management": "30.59",
+     "profit": "13.13"
+    }
+   },
+   "injury_insurance": {
+    "a": "0.077",
+    "b": "0.083"
+   },
+   "quality_bonus": {
+    "national": {
+     "a": "1.61",
+     "b": "1.64"
+    },
+    "provincial": {
+     "a": "1.06",
+     "b": "1.08"
+    },
+    "municipal": {
+     "a": "0.86",
+     "b": "0.86"
+    }
+   },
+   "vat": "9"
+  },
+  "simple": {
+   "general_measures": {
+    "building": {
+     "night": "2.88",
+     "secondary_transport": "2.47",
+     "winter_rain": "3.29",
+     "protection": "0.56",
+     "existing_protection": null
+    },
+    "decoration": {
+     "night": "4.14",
+     "secondary_transport": "3.73",
+     "winter_rain": "4.66",
+     "protection": "0.56",
+     "existing_protection": null
+    },
+    "installation": {
+     "night": "3.49",
+     "secondary_transport": "2.81",
+     "winter_rain": "3.75",
+     "protection": "1.47",
+     "existing_protection": null
+    },
+    "landscaping": {
+     "night": "2.66",
+     "secondary_transport": "5.32",
+     "winter_rain": "2.66",
+     "protection": "7.10",
+     "existing_protection": null
+    },
+    "repair_building": {
+     "night": "4.45",
+     "secondary_transport": "3.94",
+     "winter_rain": "4.98",
+     "protection": "3.20",
+     "existing_protection": null
+    },
+    "repair_installation": {
+     "night": "3.49",
+     "secondary_transport": "3.61",
+     "winter_rain": "3.75",
+     "protection": "2.09",
+     "existing_protection": null
+    },
+    "heritage_repair": {
+     "night": "4.61",
+     "secondary_transport": "4.07",
+     "winter_rain": "5.14",
+     "protection": null,
+     "existing_protection": "3.15"
+    },
+    "antique": {
+     "night": "0.73",
+     "secondary_transport": "2.64",
+     "winter_rain": "2.84",
+     "protection": "0.83",
+     "existing_protection": null
+    },
+    "road": {
+     "night": "0.67",
+     "secondary_transport": "1.16",
+     "winter_rain": "0.42",
+     "protection": "0.64",
+     "positioning": "0.13",
+     "pipeline_crossing": "0.32"
+    },
+    "bridge": {
+     "night": "0.40",
+     "secondary_transport": "1.62",
+     "winter_rain": "0.41",
+     "protection": "0.66",
+     "positioning": "0.09",
+     "pipeline_crossing": "0.40"
+    },
+    "tunnel": {
+     "night": "0.33",
+     "secondary_transport": "1.35",
+     "winter_rain": "0.34",
+     "protection": "0.67",
+     "positioning": "0.08",
+     "pipeline_crossing": "0.22"
+    },
+    "water_supply": {
+     "night": "1.61",
+     "secondary_transport": "2.14",
+     "winter_rain": "1.63",
+     "protection": "0.85",
+     "positioning": "0.35",
+     "pipeline_crossing": "1.29"
+    },
+    "drainage": {
+     "night": "0.44",
+     "secondary_transport": "1.31",
+     "winter_rain": "0.45",
+     "protection": "0.52",
+     "positioning": "0.11",
+     "pipeline_crossing": "0.79"
+    },
+    "gas": {
+     "night": "1.12",
+     "secondary_transport": "1.39",
+     "winter_rain": "1.13",
+     "protection": "0.71",
+     "positioning": "0.73",
+     "pipeline_crossing": "0.95"
+    },
+    "heating": {
+     "night": "1.03",
+     "secondary_transport": "1.35",
+     "winter_rain": "1.03",
+     "protection": "0.55",
+     "positioning": "0.54",
+     "pipeline_crossing": "0.82"
+    },
+    "water_treatment": {
+     "night": "0.54",
+     "secondary_transport": "0.95",
+     "winter_rain": "0.56",
+     "protection": "0.95",
+     "positioning": "0.12",
+     "pipeline_crossing": "0.31"
+    },
+    "waste": {
+     "night": "0.85",
+     "secondary_transport": "1.41",
+     "winter_rain": "0.87",
+     "protection": "0.61",
+     "positioning": "0.20",
+     "pipeline_crossing": "0.85"
+    },
+    "street_light": {
+     "night": "0.60",
+     "secondary_transport": "0.86",
+     "winter_rain": "0.85",
+     "protection": "0.78",
+     "positioning": "0.11",
+     "pipeline_crossing": "0.52"
+    },
+    "utility_tunnel": {
+     "night": "0.30",
+     "secondary_transport": "2.18",
+     "winter_rain": "0.30",
+     "protection": "0.55",
+     "positioning": "0.10",
+     "pipeline_crossing": "0.40"
+    },
+    "maint_road": {
+     "night": "1.31",
+     "secondary_transport": "1.65",
+     "winter_rain": "1.02",
+     "protection": "0.49",
+     "positioning": null,
+     "pipeline_crossing": null
+    },
+    "maint_pipe": {
+     "night": "2.13",
+     "secondary_transport": "2.26",
+     "winter_rain": "2.13",
+     "protection": "0.56",
+     "positioning": null,
+     "pipeline_crossing": null
+    }
+   },
+   "safety_measures": {
+    "building": {
+     "safety_production": "3.29",
+     "environment": "0.57",
+     "civilized": "0.66",
+     "temporary": "0.92"
+    },
+    "decoration": {
+     "safety_production": "3.27",
+     "environment": "0.12",
+     "civilized": "0.10",
+     "temporary": "1.59"
+    },
+    "installation": {
+     "safety_production": "2.19",
+     "environment": "0.32",
+     "civilized": "0.63",
+     "temporary": "1.90"
+    },
+    "landscaping": {
+     "safety_production": "1.59",
+     "environment": "0.15",
+     "civilized": "0.34",
+     "temporary": "1.21"
+    },
+    "repair_building": {
+     "safety_production": "3.27",
+     "environment": "0.25",
+     "civilized": "0.53",
+     "temporary": "1.37"
+    },
+    "repair_installation": {
+     "safety_production": "2.19",
+     "environment": "0.32",
+     "civilized": "0.63",
+     "temporary": "1.90"
+    },
+    "heritage_repair": {
+     "safety_production": "3.24",
+     "environment": "0.24",
+     "civilized": "0.52",
+     "temporary": "1.34"
+    },
+    "antique": {
+     "safety_production": "3.24",
+     "environment": "0.64",
+     "civilized": "0.55",
+     "temporary": "0.90"
+    },
+    "road": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.79"
+    },
+    "bridge": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.79"
+    },
+    "tunnel": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.79"
+    },
+    "drainage": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.79"
+    },
+    "water_treatment": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.79"
+    },
+    "waste": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.79"
+    },
+    "utility_tunnel": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.79"
+    },
+    "water_supply": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "0.90"
+    },
+    "gas": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "0.90"
+    },
+    "heating": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "0.90"
+    },
+    "street_light": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.24"
+    },
+    "maint_road": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.42"
+    },
+    "maint_pipe": {
+     "safety_production": "1.63",
+     "environment": "1.33",
+     "civilized": "0.82",
+     "temporary": "1.42"
+    }
+   },
+   "management_profit": {
+    "building": {
+     "management": {
+      "I": "38.97",
+      "II": "29.93",
+      "III": "23.09"
+     },
+     "profit": {
+      "I": "32.13",
+      "II": "17.61",
+      "III": "13.59"
+     }
+    },
+    "structure": {
+     "management": {
+      "I": "31.12",
+      "II": "27.07",
+      "III": "18.81"
+     },
+     "profit": {
+      "I": "26.93",
+      "II": "20.99",
+      "III": "10.51"
+     }
+    },
+    "earthwork": {
+     "management": {
+      "I": "25.98",
+      "II": "17.96",
+      "III": "11.82"
+     },
+     "profit": {
+      "I": "20.02",
+      "II": "13.88",
+      "III": "6.16"
+     }
+    },
+    "piling": {
+     "management": {
+      "I": "20.84",
+      "II": "15.44",
+      "III": "11.82"
+     },
+     "profit": {
+      "I": "15.17",
+      "II": "11.36",
+      "III": "4.35"
+     }
+    },
+    "decoration": {
+     "management": {
+      "I": "61.29",
+      "II": "46.76",
+      "III": "29.62"
+     },
+     "profit": {
+      "I": "34.87",
+      "II": "21.30",
+      "III": "16.37"
+     }
+    },
+    "installation": {
+     "management": "47.37",
+     "profit": "29.15"
+    },
+    "road": {
+     "management": "17.19",
+     "profit": "9.56"
+    },
+    "bridge": {
+     "management": "17.31",
+     "profit": "10.89"
+    },
+    "tunnel": {
+     "management": "12.93",
+     "profit": "9.24"
+    },
+    "water_supply": {
+     "management": "33.55",
+     "profit": "22.16"
+    },
+    "drainage": {
+     "management": "16.02",
+     "profit": "7.60"
+    },
+    "gas": {
+     "management": "22.03",
+     "profit": "17.20"
+    },
+    "heating": {
+     "management": "23.37",
+     "profit": "18.68"
+    },
+    "water_treatment": {
+     "management": "16.38",
+     "profit": "9.92"
+    },
+    "waste": {
+     "management": "36.04",
+     "profit": "13.83"
+    },
+    "street_light": {
+     "management": "22.40",
+     "profit": "9.60"
+    },
+    "utility_tunnel": {
+     "management": "17.17",
+     "profit": "9.24"
+    },
+    "landscaping": {
+     "management": "49.34",
+     "profit": "27.26"
+    },
+    "repair_building": {
+     "management": "45.89",
+     "profit": "24.15"
+    },
+    "repair_installation": {
+     "management": "47.37",
+     "profit": "29.15"
+    },
+    "heritage_repair": {
+     "management": "47.09",
+     "profit": "28.47"
+    },
+    "maint_road": {
+     "management": "18.92",
+     "profit": "11.28"
+    },
+    "maint_pipe": {
+     "management": "23.64",
+     "profit": "14.10"
+    },
+    "antique": {
+     "management": "30.16",
+     "profit": "13.13"
+    }
+   },
+   "injury_insurance": {
+    "a": "0.073",
+    "b": "0.079"
+   },
+   "quality_bonus": {
+    "national": {
+     "a": "1.52",
+     "b": "1.55"
+    },
+    "provincial": {
+     "a": "1.01",
+     "b": "1.02"
+    },
+    "municipal": {
+     "a": "0.81",
+     "b": "0.81"
+    }
+   },
+   "vat": "3"
+  }
+ },
+ "general_contract_service": {
+  "owner_material": "1",
+  "subcontract": "3"
+ },
+ "locks": [
+  {
+   "item": "safety_measures",
+   "type": "min_rate",
+   "basis": "第二章说明（四）：安全文明措施费应按照本章规定的方法计算，费率应不低于第三章规定的费率"
+  },
+  {
+   "item": "injury_insurance",
+   "type": "fixed_rate",
+   "basis": "第三章三（一）注：费率依据鲁人社字〔2020〕69号、鲁人社函〔2025〕5号确定"
+  },
+  {
+   "item": "vat",
+   "type": "fixed_rate",
+   "basis": "第三章四"
+  },
+  {
+   "item": "provisional_sum",
+   "type": "tender_amount",
+   "basis": "第一章三（一）：发包人在工程量清单中暂列"
+  },
+  {
+   "item": "specialty_provisional",
+   "type": "tender_amount",
+   "basis": "第一章三（二）：发包人在工程量清单暂列"
+  },
+  {
+   "item": "quality_bonus",
+   "type": "tender_level",
+   "basis": "第一章三（六）：应按招标文件提出的创建目标计列"
+  }
+ ],
+ "reference_only": [
+  "management",
+  "profit",
+  "general_measures",
+  "general_contract_service"
+ ],
+ "other_fee_groups": {
+  "a": "建筑、装饰、安装、房屋修缮",
+  "b": "古建筑修缮、园林绿化、仿古建筑、市政、市政养护维修"
+ }
+}
