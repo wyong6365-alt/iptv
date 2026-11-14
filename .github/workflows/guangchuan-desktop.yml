@@ -1,0 +1,55 @@
+name: Guangchuan pricing desktop build
+
+on:
+  push:
+    branches: [claude/guangchuan-ai-pricing-platform-0s4mue]
+    paths:
+      - "guangchuan-pricing/**"
+      - ".github/workflows/guangchuan-desktop.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-exe:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: guangchuan-pricing
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build UI
+        working-directory: guangchuan-pricing/frontend
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+      - name: Install backend
+        working-directory: guangchuan-pricing/backend
+        run: pip install -e ".[dev]" pyinstaller
+      - name: Run tests
+        working-directory: guangchuan-pricing/backend
+        run: python -m pytest -q
+      - name: Build exe
+        working-directory: guangchuan-pricing/backend
+        run: python -m PyInstaller --noconfirm --onefile --windowed --name GuangchuanPricing --collect-data gcpricing desktop_entry.py
+      - name: Smoke test exe
+        working-directory: guangchuan-pricing/backend
+        shell: pwsh
+        run: |
+          $env:GC_DATA_DIR = "$env:RUNNER_TEMP\gc-smoke"
+          $p = Start-Process -FilePath "dist\GuangchuanPricing.exe" -ArgumentList "--smoke" -Wait -PassThru
+          Get-Content "$env:GC_DATA_DIR\desktop.log" -ErrorAction SilentlyContinue
+          if ($p.ExitCode -ne 0) { throw "smoke test failed with exit code $($p.ExitCode)" }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GuangchuanPricing-windows
+          path: guangchuan-pricing/backend/dist/GuangchuanPricing.exe
+          if-no-files-found: error

@@ -15,6 +15,14 @@ python -m gcpricing                            # 启动后用浏览器打开 htt
 
 首次打开时创建管理员账号。数据默认保存在用户目录下的 `.gcpricing/`。
 
+## Windows 桌面版（exe）
+
+每次推送后，GitHub Actions 的“Guangchuan pricing desktop build”流程会在 Windows 构建机上运行测试、打包并自检，产物 `GuangchuanPricing.exe` 在该次运行页面底部的 Artifacts 中下载。
+
+使用：双击 exe，稍等片刻会自动用默认浏览器打开界面，同时出现一个小控制窗口，关闭它即退出程序。数据保存在 `%LOCALAPPDATA%\\GuangchuanPricing`，升级 exe 不影响数据。
+
+exe 没有代码签名，首次运行时 Windows 可能提示“已保护你的电脑”，点“更多信息”→“仍要运行”。
+
 ## 设计文件
 
 | 文件 | 内容 |

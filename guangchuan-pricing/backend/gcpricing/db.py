@@ -11,7 +11,10 @@ from sqlalchemy.types import TypeDecorator
 
 
 def data_dir() -> Path:
-    path = Path(os.environ.get("GC_DATA_DIR", Path.home() / ".gcpricing"))
+    default = Path.home() / ".gcpricing"
+    if os.name == "nt" and os.environ.get("LOCALAPPDATA"):
+        default = Path(os.environ["LOCALAPPDATA"]) / "GuangchuanPricing"
+    path = Path(os.environ.get("GC_DATA_DIR", default))
     path.mkdir(parents=True, exist_ok=True)
     return path
 
